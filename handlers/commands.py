@@ -26,6 +26,7 @@ async def help(message: Message):
         "<b>Popular</b> - Returns an array of the most viewed articles on NYTimes.com for specified period of time (1 day, 7 days, or 30 days).\n"
         "<b>Newswire</b> - With the Times Newswire, you can get links and metadata for Times' articles as soon as they are published on NYTimes.com. The Times Newswire provides an up-to-the-minute stream of published articles. You can filter results by source (all, nyt, inyt) and section (arts, business, ...).\n"
         "<b>Top_Stories</b> - The Top Stories returns an array of articles currently on the specified section.\n"
+        "<b>Search</b> - Search for NYT articles by keywords, filters and facets.\n"
         "----------------------------------------------\n"
         "<b>Others:</b>\n"
         "<b>1</b> - you can write 1 to get interesting news for a day\n"
@@ -130,4 +131,15 @@ async def chosen_newswire(message: Message):
     command, source, section = message.text.split()
     news = get_times_newswire(source, section)
     for article in news:
+            await message.answer(f"<b>Title:</b> {article['title']}\n<b>Description:</b> {article['description']}\n<b>URL:</b> {article['url']}", reply_markup=KB.kb, parse_mode=ParseMode.HTML)
+
+@router.message(F.text == "Search")
+async def select(message: Message):
+    await message.answer("Enter interesting topic <b>(Example of query: search election)</b>: ", parse_mode=ParseMode.HTML)
+
+@router.message(lambda message: message.text.startswith('search'))
+async def query_of_interest(message: Message):
+    command, topic = message.text.split()
+    searching_news = get_search_news(topic)
+    for article in searching_news:
             await message.answer(f"<b>Title:</b> {article['title']}\n<b>Description:</b> {article['description']}\n<b>URL:</b> {article['url']}", reply_markup=KB.kb, parse_mode=ParseMode.HTML)

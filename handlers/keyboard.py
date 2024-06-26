@@ -6,7 +6,8 @@ kb = ReplyKeyboardMarkup(keyboard = [
     [KeyboardButton(text = "Archive"),
     KeyboardButton(text = "Popular")],
     [KeyboardButton(text = "Top_Stories"),
-    KeyboardButton(text = "Newswire")]],
+    KeyboardButton(text = "Newswire")],
+    [KeyboardButton(text = "Search")]],
     resize_keyboard = True, input_field_placeholder = "Choose option",
     one_time_keyboard = True)
 
